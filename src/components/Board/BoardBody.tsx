@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import Styled from 'styled-components'
 import { Cells }from '../../domain/model/board/index'
 import { Route, Pos }from '../../domain/model/piece'
@@ -40,7 +40,11 @@ const BoardBody: React.FC<{ onClickCell: Function, routes: Route, player: Side, 
             <Row key={`${i}`}>
               {
                 row.map((cell, k) => {
-                  return <CCell key={`${i}-${k}`} player={player} active={!!from && JSON.stringify(from) === JSON.stringify([i, k])} route={isRouteCell([i, k])} onClick={() => onClickCell([i, k])} cell={cell} />
+                  return (
+                    <div key={`${i}-${k}`} onClick={() => onClickCell([i, k])}>
+                      <CCell player={player} active={!!from && JSON.stringify(from) === JSON.stringify([i, k])} route={isRouteCell([i, k])} cell={cell} />
+                    </div>
+                  )
                 })
                 }
             </Row>

@@ -1,4 +1,4 @@
-import React, { useEffect, createContext, useState } from 'react';
+import React, { useCallback, useEffect, createContext, useState } from 'react';
 import CBoard from '../../components/Board/Board'
 import { Piece, Pos, Route } from '../../domain/model/piece'
 import {
@@ -10,6 +10,7 @@ import {
   dropRoutes,
   drop,
   exactBoard,
+  restoreBoard,
   routes as genRoutes,
 } from '../../domain/model/board/index'
 import { Side, switchSide } from '../../domain/model/player'
@@ -51,10 +52,11 @@ const Game: React.FC<{ game: StoredGameState }> = ({ game }) => {
     const unsub = onSnapshot(docRef, snapshot => {
       const data = snapshot.data()
       if (data) {
-        const board = JSON.parse(data.board)
+        const storedBoard = JSON.parse(data.board)
+        const newBoard = restoreBoard({ currentBoard: board, storedBoard })
         if (turn !== data.turn) {
           setTurn(data.turn as Side)
-          setBoard(exactBoard({ player, board }))
+          setBoard(newBoard)
         }
       }
     })
@@ -151,9 +153,13 @@ const Game: React.FC<{ game: StoredGameState }> = ({ game }) => {
       }
     }
   }
+  const memoizedCallback = useCallback(onClickCell, [selectState, board, turn])
 
   return (
-    <GameContext.Provider value={ { selectState, player, turn, board, onClickCell, onClickPawn, routes } }>
+    <GameContext.Provider value={ { selectState, player, turn, board, onClickCell: memoizedCallback, onClickPawn, routes } }>
+      <div onClick={() => { setSelectState({ ...selectState });}}>
+      ok
+      </div>
       <CBoard />
     </GameContext.Provider>
   )
