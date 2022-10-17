@@ -13,15 +13,22 @@ import {
 import { isCheck } from './checkMate'
 
 export const routes = ({ cells, from, isPlayer }: { cells: Cells, isPlayer: boolean, from: Pos }): Route => {
-  const { piece } = cells[from[0]][from[1]]
+  const cellFrom = cells[from[0]][from[1]]
+  const piece = cellFrom.piece
   if (!piece) {
     return []
   }
   const turn = piece.owner
   return pieceRoutes({ from, cells, isPlayer }).filter(route => {
     const newCells = copyCells(cells)
-    newCells[from[0]][from[1]] = { piece: null }
-    newCells[route[0]][route[1]] = { piece }
+    newCells[from[0]][from[1]] = {
+      ...newCells[from[0]][from[1]],
+      piece
+    }
+    newCells[route[0]][route[1]] = {
+      ...newCells[route[0]][route[1]],
+      piece
+    }
 
     return !isCheck({ turn, cells: newCells, isPlayer })
   })
@@ -37,8 +44,10 @@ export const canMove = ({ cells, isPlayer, from, to }: { cells: Cells, isPlayer:
 export const move = ({ isPromote, isPlayer, from ,to, board }: { isPromote?: boolean, board: Board, isPlayer: boolean, from: Pos, to: Pos }): Board | false => {
   const { cells, capturedPiece } = board
   const newCells = copyCells(cells)
-  const { piece } = cells[from[0]][from[1]]
-  const { piece: pieceTo } = cells[to[0]][to[1]]
+  const cellFrom = cells[from[0]][from[1]]
+  const piece = cellFrom.piece
+  const cellTo = cells[to[0]][to[1]]
+  const pieceTo = cellTo.piece
 
   if (!piece) {
     return false
@@ -49,8 +58,14 @@ export const move = ({ isPromote, isPlayer, from ,to, board }: { isPromote?: boo
   }
 
   if (canMove({ isPlayer, from, to, cells })) {
-    newCells[from[0]][from[1]] = { piece: null }
-    newCells[to[0]][to[1]] = { piece: isPromote && isPromotablePiece(piece) ? promote(piece) : piece }
+    newCells[from[0]][from[1]] = {
+      ...newCells[from[0]][from[1]],
+      piece: null
+    }
+    newCells[to[0]][to[1]] = {
+      ...newCells[to[0]][to[1]],
+      piece: isPromote && isPromotablePiece(piece) ? promote(piece) : piece
+    }
 
     if (pieceTo) {
       capturedPiece[piece.owner] = [

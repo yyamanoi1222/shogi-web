@@ -7,7 +7,10 @@ import { Side } from '../player'
 export const dropRoutes = ({ turn, isPlayer, piece, cells }: { isPlayer: boolean, turn: Side, piece: Piece, cells: Cells }): Route => {
   return pieceDropRoutes({ piece, cells, turn, isPlayer }).filter(route => {
     const newCells = copyCells(cells)
-    newCells[route[0]][route[1]] = { piece }
+    newCells[route[0]][route[1]] = {
+      ...newCells[route[0]][route[1]],
+      piece
+    }
 
     return !isCheck({ turn, cells, isPlayer })
   })
@@ -26,7 +29,10 @@ export const drop = ({ isPlayer, board, piece, to }: { isPlayer: boolean, piece:
     return false
   }
   const newCells = copyCells(cells)
-  newCells[to[0]][to[1]] = { piece }
+  newCells[to[0]][to[1]] = {
+    ...newCells[to[0]][to[1]],
+    piece
+  }
   const i = capturedPiece[piece.owner].findIndex(p => p.code === piece.code)
   capturedPiece[piece.owner] = capturedPiece[piece.owner].filter((_, j) => j !== i)
 

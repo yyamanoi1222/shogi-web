@@ -31,7 +31,6 @@ const BoardComponent: React.FC = () => {
   }
 
   const { board, onClickCell, onClickPawn, routes, selectState, player, turn } = game;
-  const memoizedOnClickCell = useCallback(onClickCell, [onClickCell, selectState, routes, board.cells, turn])
 
   const opponent = player === 'white' ? 'black' : 'white'
   const displayOpponent = opponent === 'black' ? '後手' : '先手'
@@ -40,7 +39,7 @@ const BoardComponent: React.FC = () => {
   return (
     <Container>
       <Row>
-        <BoardBody cells={board.cells} routes={routes} onClickCell={memoizedOnClickCell} from={selectState.from} player={player} />
+        <BoardBody cells={board.cells} routes={routes} onClickCell={onClickCell} from={selectState.from} player={player} />
         <Pawns>
           <Pawn selectPawn={selectState.pawn} onClickPawn={onClickPawn} active={turn===opponent} displayPlayer={displayOpponent} capturedPiece={board.capturedPiece[opponent]}></Pawn>
           <Pawn selectPawn={selectState.pawn} onClickPawn={onClickPawn} active={turn===player} displayPlayer={displayPlayer} capturedPiece={board.capturedPiece[player]}></Pawn>

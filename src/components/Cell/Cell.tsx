@@ -25,9 +25,10 @@ const Container = Styled.div<{ active: boolean; route: boolean; isRotate: boolea
   }
 `
 
-const CellComponent: React.FC<{ route: boolean; active: boolean; onClick: () => void; cell: Cell; player: Side }> = ({ route, active, onClick, cell, player }) => {
+const CellComponent: React.FC<{ route: boolean; active: boolean; cell: Cell; player: Side }> = ({ route, active, cell, player }) => {
+  console.log('ccell')
   return (
-    <Container active={active} route={route} onClick={onClick} isRotate={cell?.piece?.owner !== player}>
+    <Container active={active} route={route} isRotate={cell?.piece?.owner !== player}>
       {cell?.piece && <CPiece height="90%" piece={cell.piece} />}
     </Container>
   )
