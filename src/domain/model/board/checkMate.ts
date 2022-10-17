@@ -78,9 +78,11 @@ export const isCheck = ({ isPlayer, turn, cells }: { isPlayer: boolean, turn: Si
 }
 
 export const canSelect = ({ isPlayer, turn, from, cells }: { isPlayer: boolean, turn: Side, from: Pos, cells: Cells }): boolean => {
+  /*
   if (!isPlayer) {
     return false
   }
+  */
 
   const { piece } = cells[from[0]][from[1]]
   if (!piece) {

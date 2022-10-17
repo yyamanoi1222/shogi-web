@@ -23,7 +23,7 @@ export const routes = ({ cells, from, isPlayer }: { cells: Cells, isPlayer: bool
     const newCells = copyCells(cells)
     newCells[from[0]][from[1]] = {
       ...newCells[from[0]][from[1]],
-      piece
+      piece: null
     }
     newCells[route[0]][route[1]] = {
       ...newCells[route[0]][route[1]],

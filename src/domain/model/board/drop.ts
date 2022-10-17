@@ -12,7 +12,7 @@ export const dropRoutes = ({ turn, isPlayer, piece, cells }: { isPlayer: boolean
       piece
     }
 
-    return !isCheck({ turn, cells, isPlayer })
+    return !isCheck({ turn, cells: newCells, isPlayer })
   })
 }
 
