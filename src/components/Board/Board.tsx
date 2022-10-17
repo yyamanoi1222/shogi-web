@@ -1,8 +1,9 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useMemo, useContext } from 'react';
 import Styled from 'styled-components'
 import { GameContext } from '../Game/Game'
 import BoardBody from './BoardBody'
 import Pawn from './Pawn'
+import { switchSide } from '../../domain/model/player'
 
 const Container = Styled.div`
   display: flex;
@@ -32,7 +33,7 @@ const BoardComponent: React.FC = () => {
 
   const { board, onClickCell, onClickPawn, routes, selectState, player, turn } = game;
 
-  const opponent = player === 'white' ? 'black' : 'white'
+  const opponent = switchSide({ current: player })
   const displayOpponent = opponent === 'black' ? '後手' : '先手'
   const displayPlayer = player === 'white' ? '先手' : '後手'
 

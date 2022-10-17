@@ -30,7 +30,7 @@ const Pawn: React.FC<{ selectPawn: null | Piece; onClickPawn: Function, active: 
       <Row>
         {
           capturedPiece.map((p, i) => {
-            return <PieceWrapper key={`${i}`}active={active && i === selectIndex} onClick={() => onClickPawn(p)}><CPiece height={'101%'} piece={p} /></PieceWrapper>
+            return <PieceWrapper key={`${i}`} active={active && i === selectIndex} onClick={() => onClickPawn(p)}><CPiece height={'101%'} piece={p} /></PieceWrapper>
           })
         }
       </Row>

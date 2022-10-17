@@ -153,10 +153,11 @@ const Game: React.FC<{ game: StoredGameState }> = ({ game }) => {
       }
     }
   }
-  const memoizedCallback = useCallback(onClickCell, [selectState, board, turn])
+  const memoizedOnClickCell = useCallback(onClickCell, [selectState, board, turn])
+  const memoizedOnClickPawn = useCallback(onClickPawn, [turn, isPlayer, board])
 
   return (
-    <GameContext.Provider value={ { selectState, player, turn, board, onClickCell: memoizedCallback, onClickPawn, routes } }>
+    <GameContext.Provider value={ { selectState, player, turn, board, onClickCell: memoizedOnClickCell, onClickPawn, routes } }>
       <CBoard />
     </GameContext.Provider>
   )
