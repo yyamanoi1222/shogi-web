@@ -62,7 +62,7 @@ export const restoreBoard = ({ currentBoard, storedBoard }: { currentBoard: Boar
   })
 
   return {
-    ...currentBoard,
-    cells: patched
+    cells: patched,
+    capturedPiece: storedBoard.capturedPiece
   }
 }

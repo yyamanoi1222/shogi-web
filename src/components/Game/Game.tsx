@@ -45,6 +45,7 @@ const Game: React.FC<{ game: StoredGameState }> = ({ game }) => {
   const [turn, setTurn] = useState<Side>(game.initTurn)
   const [selectState, setSelectState] = useState<SelectState>({ from: null, pawn: null })
   const [routes, setRoutes] = useState<Route>([])
+  const [checkMateFlg, setCheckMateFlg] = useState<boolean>(false)
 
   useEffect(() => {
     const db = new FirebaseApp().firestore
@@ -54,10 +55,8 @@ const Game: React.FC<{ game: StoredGameState }> = ({ game }) => {
       if (data) {
         const storedBoard = JSON.parse(data.board)
         const newBoard = restoreBoard({ currentBoard: board, storedBoard })
-        if (turn !== data.turn) {
-          setTurn(data.turn as Side)
-          setBoard(newBoard)
-        }
+        setTurn(data.turn as Side)
+        setBoard(newBoard)
       }
     })
     return () => unsub()
@@ -67,7 +66,8 @@ const Game: React.FC<{ game: StoredGameState }> = ({ game }) => {
   const isPlayer = player === turn
   const { cells } = board
 
-  if (isCheckMate({ isPlayer, turn, board })) {
+  if (!checkMateFlg && isCheckMate({ isPlayer, turn, board })) {
+    setCheckMateFlg(true)
     alert('チェックメイトです')
   }
 
@@ -157,9 +157,6 @@ const Game: React.FC<{ game: StoredGameState }> = ({ game }) => {
 
   return (
     <GameContext.Provider value={ { selectState, player, turn, board, onClickCell: memoizedCallback, onClickPawn, routes } }>
-      <div onClick={() => { setSelectState({ ...selectState });}}>
-      ok
-      </div>
       <CBoard />
     </GameContext.Provider>
   )

@@ -26,7 +26,6 @@ const Container = Styled.div<{ active: boolean; route: boolean; isRotate: boolea
 `
 
 const CellComponent: React.FC<{ route: boolean; active: boolean; cell: Cell; player: Side }> = ({ route, active, cell, player }) => {
-  console.log('ccell')
   return (
     <Container active={active} route={route} isRotate={cell?.piece?.owner !== player}>
       {cell?.piece && <CPiece height="90%" piece={cell.piece} />}
