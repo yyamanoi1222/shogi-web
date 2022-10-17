@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Styled from 'styled-components'
 import { Cells }from '../../domain/model/board/index'
 import { Route, Pos }from '../../domain/model/piece'

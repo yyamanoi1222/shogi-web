@@ -52,8 +52,10 @@ const Game: React.FC<{ game: StoredGameState }> = ({ game }) => {
       const data = snapshot.data()
       if (data) {
         const board = JSON.parse(data.board)
-        setTurn(data.turn as Side)
-        setBoard(exactBoard({ player, board }))
+        if (turn !== data.turn) {
+          setTurn(data.turn as Side)
+          setBoard(exactBoard({ player, board }))
+        }
       }
     })
     return () => unsub()
