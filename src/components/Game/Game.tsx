@@ -54,9 +54,8 @@ const Game: React.FC<{ game: StoredGameState }> = ({ game }) => {
       const data = snapshot.data()
       if (data) {
         const storedBoard = JSON.parse(data.board)
-        const newBoard = restoreBoard({ currentBoard: board, storedBoard })
         setTurn(data.turn as Side)
-        setBoard(newBoard)
+        setBoard((currentBoard) => restoreBoard({ currentBoard, storedBoard }))
       }
     })
     return () => unsub()
